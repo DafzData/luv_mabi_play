@@ -68,7 +68,7 @@ def play_youtube_audio_interval(youtube_url, start_time_seconds, end_time_second
 # Set URL and interval here (internal values)
 youtube_url = "https://www.youtube.com/watch?v=IpFX2vq8HKw&ab_channel=yungkai"  # **REPLACE WITH YOUR YOUTUBE URL**
 start_time_seconds = 48.0  # **REPLACE WITH YOUR START TIME (SECONDS)**
-end_time_seconds = 77.0  # **REPLACE WITH YOUR END TIME (SECONDS)**
+end_time_seconds = 77.4  # **REPLACE WITH YOUR END TIME (SECONDS)**
 
 play_youtube_audio_interval(youtube_url, start_time_seconds, end_time_seconds)
 
