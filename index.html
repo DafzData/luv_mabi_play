@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body style="background-color: #181a1b;">
+    <div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
+        <div style="display: flex; align-items: center; justify-content: center;">
+            <span style="font-size: 3em; margin-right: 0.5em;">🎵</span>
+            <span style="font-size: 7em;">❤️</span>
+            <span style="font-size: 3em; margin-left: 0.5em;">🎵</span> 
+        </div>
+        <div style="margin-left: 20px;">  <h2 style="text-align: left; font-size: 2em;color: #fff;">Aumente  o volume</h2> </div>
+        <div style="margin-left: 20px;">  <h2 style="text-align: left; font-size: 2em;color: #fff;">e abra o cartão, Mabi!</h2> </div>
+        <!-- <div style="display: flex; flex-direction: column; align-items: center;">
+            <button onclick="window.location.reload();" style="border: none; background: none; padding: 0; cursor: pointer;">
+                <span style="font-size: 2em;">▶️</span>  </button>
+            <span style="text-align: center; margin-top: 0.5em;">Toque aqui se a música não iniciar</span>
+        </div> -->
+    </div> 
+
+    <iframe id="youtube-player" width="0" height="0"
+        src="https://www.youtube.com/embed/IpFX2vq8HKw?enablejsapi=1&autoplay=1&mute=0&start=48"
+        allow="autoplay" title="YouTube video player" frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen>
+    </iframe>
+
+<script>
+    var player;
+    function onYouTubeIframeAPIReady() {
+        player = new YT.Player('youtube-player', {
+            events: {
+                'onReady': onPlayerReady,
+                'onStateChange': onPlayerStateChange
+            }
+        });
+    }
+
+    function onPlayerReady(event) {
+        event.target.playVideo();
+    }
+
+    function onPlayerStateChange(event) {
+        if (event.data === YT.PlayerState.PLAYING) {
+            setInterval(function() {
+                var currentTime = player.getCurrentTime();
+                if (currentTime >= 77.4) {
+                    player.seekTo(48);
+                }
+            }, 500);
+        }
+    }
+
+    // Adiciona o script da API do YouTube
+    var tag = document.createElement('script');
+    tag.src = "https://www.youtube.com/iframe_api";
+    var firstScriptTag = document.getElementsByTagName('script')[0];
+    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+</script>
+</body>
+</html>
