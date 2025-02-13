@@ -3,62 +3,124 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body style="background-color: #181a1b;">
-    <div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
-        <div style="display: flex; align-items: center; justify-content: center;">
-            <span style="font-size: 3em; margin-right: 0.5em;">🎵</span>
-            <span style="font-size: 7em;">❤️</span>
-            <span style="font-size: 3em; margin-left: 0.5em;">🎵</span> 
-        </div>
-        <div style="margin-left: 20px;">  <h2 style="text-align: left; font-size: 2em;color: #fff;">Aumente  o volume</h2> </div>
-        <div style="margin-left: 20px;">  <h2 style="text-align: left; font-size: 2em;color: #fff;">e abra o cartão, Mabi!</h2> </div>
-        <!-- <div style="display: flex; flex-direction: column; align-items: center;">
-            <button onclick="window.location.reload();" style="border: none; background: none; padding: 0; cursor: pointer;">
-                <span style="font-size: 2em;">▶️</span>  </button>
-            <span style="text-align: center; margin-top: 0.5em;">Toque aqui se a música não iniciar</span>
-        </div> -->
-    </div> 
-
-    <iframe id="youtube-player" width="400" height="400"
-        src="https://www.youtube.com/embed/IpFX2vq8HKw?enablejsapi=1&autoplay=1&mute=0&start=48"
-        allow="autoplay" title="YouTube video player" frameborder="0"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-        allowfullscreen>
-    </iframe>
-
-<script>
-    var player;
-    function onYouTubeIframeAPIReady() {
-        player = new YT.Player('youtube-player', {
-            events: {
-                'onReady': onPlayerReady,
-                'onStateChange': onPlayerStateChange
-            }
-        });
-    }
-
-    function onPlayerReady(event) {
-        event.target.playVideo();
-    }
-
-    function onPlayerStateChange(event) {
-        if (event.data === YT.PlayerState.PLAYING) {
-            setInterval(function() {
-                var currentTime = player.getCurrentTime();
-                if (currentTime >= 77.4) {
-                    player.seekTo(48);
-                }
-            }, 500);
+    <title>Reproduzir Áudio do YouTube em Loop</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap" rel="stylesheet"> <!-- Fonte Dancing Script -->
+    <style>
+        body {
+            background-color: #181a1b;
+            color: #fff;
+            font-family: 'Dancing Script', cursive, sans-serif; /* Fonte caligráfica descontraída */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
         }
-    }
+        #message {
+            text-align: center;
+        }
+        #play-button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        #play-button span {
+            font-size: 4em; /* Ícones maiores */
+            margin: 0 0.5em;
+        }
+        #play-button .heart {
+            font-size: 10em; /* Coração maior */
+            transition: transform 0.2s ease; /* Animação ao clicar */
+        }
+        #play-button .heart:hover {
+            transform: scale(1.1); /* Efeito de zoom ao passar o mouse */
+        }
+        .text-above {
+            font-size: 4em; /* Texto maior */
+            margin-bottom: 20px;
+            font-weight: bold; /* Texto mais preenchido */
+        }
+        .text-below {
+            font-size: 4em; /* Texto maior */
+            margin-top: 20px;
+            font-weight: bold; /* Texto mais preenchido */
+        }
+    </style>
+</head>
+<body>
+    <div id="message">
+        <div class="text-above">Toque no meu coração</div>
+        <button id="play-button">
+            <span>🎵</span>
+            <span class="heart">❤️</span>
+            <span>🎵</span>
+        </button>
+        <div class="text-below">e abra o cartão, Mabi !</div>
+    </div>
 
-    // Adiciona o script da API do YouTube
-    var tag = document.createElement('script');
-    tag.src = "https://www.youtube.com/iframe_api";
-    var firstScriptTag = document.getElementsByTagName('script')[0];
-    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-</script>
+    <!-- Player do YouTube (oculto) -->
+    <div id="player"></div>
+
+    <script>
+        var player;
+        var intervalId;
+
+        // Carrega a API do YouTube IFrame
+        var tag = document.createElement('script');
+        tag.src = "https://www.youtube.com/iframe_api";
+        var firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+        // Função chamada quando a API está pronta
+        function onYouTubeIframeAPIReady() {
+            player = new YT.Player('player', {
+                height: '0', // Ocultar o player
+                width: '0',  // Ocultar o player
+                videoId: 'IpFX2vq8HKw', // ID do vídeo do YouTube
+                playerVars: {
+                    start: 48, // Iniciar no segundo 48
+                    autoplay: 0, // Não autoplay (aguardar interação do usuário)
+                    mute: 0,    // Som ligado
+                    controls: 0, // Sem controles
+                    modestbranding: 1, // Sem branding do YouTube
+                    rel: 0, // Não mostrar vídeos relacionados
+                    enablejsapi: 1 // Habilitar API JavaScript
+                },
+                events: {
+                    'onReady': onPlayerReady,
+                    'onStateChange': onPlayerStateChange
+                }
+            });
+        }
+
+        // Função chamada quando o player está pronto
+        function onPlayerReady(event) {
+            // Adiciona um evento de clique ao botão para iniciar a reprodução
+            document.getElementById('play-button').addEventListener('click', function() {
+                event.target.playVideo();
+            });
+        }
+
+        // Função chamada quando o estado do player muda
+        function onPlayerStateChange(event) {
+            if (event.data === YT.PlayerState.PLAYING) {
+                // Inicia o intervalo para repetir o vídeo
+                intervalId = setInterval(function() {
+                    var currentTime = player.getCurrentTime();
+                    if (currentTime >= 77.4) {
+                        player.seekTo(48); // Volta para o segundo 48
+                    }
+                }, 500); // Verifica a cada 500ms
+            } else if (event.data === YT.PlayerState.PAUSED || event.data === YT.PlayerState.ENDED) {
+                // Limpa o intervalo se o vídeo for pausado ou terminar
+                clearInterval(intervalId);
+            }
+        }
+    </script>
 </body>
 </html>
