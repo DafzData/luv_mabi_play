@@ -16,6 +16,8 @@
             justify-content: center;
             height: 100vh;
             margin: 0;
+            padding: 20px; /* Espaçamento para evitar que o conteúdo encoste nas bordas */
+            box-sizing: border-box;
         }
         #message {
             text-align: center;
@@ -49,6 +51,32 @@
             font-size: 4.5em; /* Texto maior */
             margin-top: 20px;
             font-weight: bold; /* Texto mais preenchido */
+        }
+
+        /* Ajustes para telas menores (mobile) */
+        @media (max-width: 768px) {
+            #play-button span {
+                font-size: 3em; /* Ícones menores em mobile */
+            }
+            #play-button .heart {
+                font-size: 8em; /* Coração menor em mobile */
+            }
+            .text-above, .text-below {
+                font-size: 3em; /* Texto menor em mobile */
+            }
+        }
+
+        /* Ajustes para telas muito pequenas (ex.: smartphones pequenos) */
+        @media (max-width: 480px) {
+            #play-button span {
+                font-size: 2em; /* Ícones ainda menores */
+            }
+            #play-button .heart {
+                font-size: 6em; /* Coração ainda menor */
+            }
+            .text-above, .text-below {
+                font-size: 2em; /* Texto ainda menor */
+            }
         }
     </style>
 </head>
