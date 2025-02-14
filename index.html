@@ -100,63 +100,6 @@
       </audio>
 
     <!-- Player do YouTube (oculto) -->
-    <div id="player"></div>
-
-    <script>
-        var player;
-        var intervalId;
-
-        // Carrega a API do YouTube IFrame
-        var tag = document.createElement('script');
-        tag.src = "https://www.youtube.com/iframe_api";
-        var firstScriptTag = document.getElementsByTagName('script')[0];
-        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-
-        // Função chamada quando a API está pronta
-        function onYouTubeIframeAPIReady() {
-            player = new YT.Player('player', {
-                height: '0', // Ocultar o player
-                width: '0',  // Ocultar o player
-                videoId: 'IpFX2vq8HKw', // ID do vídeo do YouTube
-                playerVars: {
-                    start: 48, // Iniciar no segundo 48
-                    autoplay: 0, // Não autoplay (aguardar interação do usuário)
-                    mute: 0,    // Som ligado
-                    controls: 0, // Sem controles
-                    modestbranding: 1, // Sem branding do YouTube
-                    rel: 0, // Não mostrar vídeos relacionados
-                    enablejsapi: 1 // Habilitar API JavaScript
-                },
-                events: {
-                    'onReady': onPlayerReady,
-                    'onStateChange': onPlayerStateChange
-                }
-            });
-        }
-
-        // Função chamada quando o player está pronto
-        function onPlayerReady(event) {
-            // Adiciona um evento de clique ao botão para iniciar a reprodução
-            document.getElementById('play-button').addEventListener('click', function() {
-                event.target.playVideo();
-            });
-        }
-
-        // Função chamada quando o estado do player muda
-        function onPlayerStateChange(event) {
-            if (event.data === YT.PlayerState.PLAYING) {
-                // Inicia o intervalo para repetir o vídeo
-                intervalId = setInterval(function() {
-                    var currentTime = player.getCurrentTime();
-                    if (currentTime >= 77.4) {
-                        player.seekTo(48); // Volta para o segundo 48
-                    }
-                }, 500); // Verifica a cada 500ms
-            } else if (event.data === YT.PlayerState.PAUSED || event.data === YT.PlayerState.ENDED) {
-                // Limpa o intervalo se o vídeo for pausado ou terminar
-                clearInterval(intervalId);
-            }
-        }
-    </script>
+ 
 </body>
 </html>
